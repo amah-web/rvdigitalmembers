@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;family=Roboto:wght@400;700&amp;family=Poppins:wght@400;600;700&amp;family=Montserrat:wght@400;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Lato:wght@400;700&amp;family=Playfair+Display:wght@700&amp;family=Oswald:wght@400;700&amp;family=Raleway:wght@400;700&amp;family=Ubuntu:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { darkMode: 'class' };
+        
+        // Listen for theme changes from parent window
+        window.addEventListener('message', (e) => {
+            if (e.data.type === 'SYNC_THEME') {
+                if (e.data.theme === 'dark') document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+    <style>
+        :root {
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --color-primary: #f88379; /* Dipakai sbg fallback warna link footer */
+            --color-text: #334155;
+        }
+
+        /* Base Styles */
+        body { font-family: var(--font-body); color: var(--color-text); transition: background-color 0.3s ease, color 0.3s ease; }
+        .container { max-width: 600px; margin: 0 auto; text-align: center; }
+        
+        h1 { 
+            font-family: var(--font-heading); 
+            font-size: clamp(2rem, 5vw, 2.5rem); 
+            font-weight: 800; 
+            margin: 0 0 16px; 
+            outline:none; 
+            letter-spacing:-1px; 
+            line-height: 1.2; 
+            color: #1e293b;
+        }
+        .desc { font-size: 1.125rem; margin: 0 0 24px; outline:none; line-height: 1.6; }
+        
+        /* Components */
+        .section-tag { font-family: var(--font-heading); font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; display: block; margin-bottom: 14px; text-align: left; letter-spacing:1px; }
+        .card-item { border-radius: 20px; padding: 24px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; border-width: 1px; box-shadow: 0 4px 15px -3px rgba(0,0,0,0.05); border-color: #f1f5f9; transition: transform 0.2s; gap: 16px; }
+        .card-item:hover { transform: translateY(-2px); }
+        .dark .card-item { border-color: #1e293b; background-color: #0f172a; }
+        
+        /* Button Global Styles */
+        .btn-coral {
+            background: linear-gradient(135deg, #f88379, #9333ea);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 12px;
+            display: inline-block;
+            transition: opacity 0.2s, transform 0.2s;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15);
+            border: none;
+        }
+        .btn-coral:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* Footer Area */
+        .footer { margin-top: 80px; padding-top: 40px; border-top-width: 1px; border-color: #e2e8f0; }
+        .dark .footer { border-color: #1e293b; }
+        .badge { background: #f1f5f9; padding: 6px 16px; border-radius: 99px; font-size: 11px; font-weight: 800; color: #64748b; margin-bottom: 20px; display: inline-block; outline:none; }
+        .dark .badge { background: #1e293b; color: #94a3b8; }
+        .support-link { color: var(--color-primary); font-weight: 800; text-decoration: none; font-size: 20px; outline:none; display:inline-block; transition: opacity 0.2s; }
+        .support-link:hover { opacity: 0.8; }
+        
+        /* Editor Helpers */
+        [contenteditable]:hover { outline: 1px dashed #cbd5e1; outline-offset: 4px; border-radius: 4px; }
+        .dark [contenteditable]:hover { outline-color: #475569; }
+        [contenteditable]:focus { outline: 2px solid #f88379; outline-offset: 4px; border-radius: 4px; background: rgba(248,131,121,0.05); }
+        
+        /* Floating Toolbar (Removed on export) */
+        #imers-toolbar { 
+            display:none; position:fixed; background:#fff; border:1px solid #e2e8f0; padding:16px; 
+            border-radius:16px; box-shadow:0 20px 40px -10px rgba(0,0,0,0.2); z-index:9999; 
+            flex-direction:column; gap:12px; min-width:260px; color: #334155;
+            font-family: sans-serif;
+        }
+        .dark #imers-toolbar { background: #0f172a; border-color: #1e293b; color: #f1f5f9; }
+        .tool-row { display:flex; gap:8px; align-items:center; }
+        .tool-btn { padding:6px 14px; border:1px solid #e2e8f0; border-radius:8px; background:#f8fafc; font-weight:bold; cursor:pointer; font-size:12px; transition: all 0.2s; }
+        .tool-btn:hover { background: #e2e8f0; }
+        .dark .tool-btn { background: #1e293b; border-color: #334155; color: white; }
+        .dark .tool-btn:hover { background: #334155; }
+        .tool-label { font-size:9px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:6px; display:block; }
+        select.tool-select { font-size:12px; padding:8px; border-radius:8px; border:1px solid #e2e8f0; width:100%; cursor:pointer; font-weight:600; background: transparent; outline:none; }
+        .dark select.tool-select { border-color: #334155; color: white; background: #0f172a;}
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.min-h-screen{min-height:100vh}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.px-4{padding-left:1rem;padding-right:1rem}.py-16{padding-top:4rem;padding-bottom:4rem}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.dark\:border-slate-700:is(.dark *){--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.dark\:border-slate-800:is(.dark *){--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.dark\:bg-slate-700:is(.dark *){--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.dark\:bg-slate-800:is(.dark *){--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.dark\:bg-slate-950:is(.dark *){--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.dark\:text-slate-100:is(.dark *){--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.dark\:text-slate-400:is(.dark *){--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.dark\:text-slate-500:is(.dark *){--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.dark\:text-slate-600:is(.dark *){--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}@media (min-width: 768px){.md\:px-12{padding-left:3rem;padding-right:3rem}}</style></head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-16 px-4 md:px-12 min-h-screen">
+    
+    <!-- WYSIWYG Editor Toolbar -->
+    
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <h1 class="text-slate-900 dark:text-slate-100">Cara Meningkatkan Rezeki untuk Diri Sendiri dan Generasi Setelahnya</h1>
+        <p class="desc text-slate-600 dark:text-slate-400">Akses materi eksklusif Anda di bawah ini secara lengkap.</p>
+        
+        
+                <div style="margin: 30px auto; max-width: 500px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15);">
+                    <img src="https://ik.imagekit.io/yzxryl0jya/cara-meningkatkan-rezeki.png" style="width: 100%; height: auto; display: block;" onerror="this.style.display='none'" alt="Product Hero">
+                </div>
+            
+        
+        <div style="margin-top: 40px;">
+            
+            
+                <span class="section-tag">Unduh Asset</span>
+                
+                <div class="card-item bg-white dark:bg-slate-800 dark:border-slate-700">
+                    <div style="flex-grow:1; text-align:left;">
+                        <h3 class="text-slate-900 dark:text-slate-100" style="margin:0; font-size:16px; font-weight:800; outline:none; font-family: var(--font-heading);">Akses Ebook</h3>
+                        <p class="text-slate-500 dark:text-slate-400" style="margin:6px 0 0; font-size:12px; outline:none; line-height:1.4;">Ebook dapat dibaca dan diunduh melalui google drive.</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1rLJM_xyYT_k3XcwCocuRhFJKe_06onK1/view?usp=sharing" class="btn-coral">DOWNLOAD</a>
+                </div>
+                <div style="margin-bottom: 35px;"></div>
+            
+            
+        </div>
+
+        <div class="footer">
+            <span class="badge">v1.0</span>
+            <p style="margin:0 0 12px; font-size:15px;" class="text-slate-500 dark:text-slate-500">Kirim Testimoni</p>
+            <a href="https://wa.me/6281324409654" class="support-link">Hubungi Admin →</a>
+            <div style="margin-top: 50px; font-size: 11px; font-weight: 700; text-transform:uppercase; letter-spacing:1px;" class="text-slate-400 dark:text-slate-600">Powered by iMersAccess</div>
+        </div>
+    </div>
+
+    <!-- Editor Script Logic -->
+    
+
+</body>
+</html>
